@@ -1,0 +1,153 @@
+@font-face {
+  font-family: "Atelier Song";
+  src: url("/fonts/NotoSerifSC-500.woff2") format("woff2");
+  font-weight: 500;
+  font-display: swap;
+}
+
+.atelier {
+  height: 100vh;
+  min-height: 100vh;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  background:
+    radial-gradient(ellipse at 50% 40%, #2c241c 0%, #14110e 55%, #0c0b0a 100%);
+  color: #f3ead7;
+  overflow: hidden;
+  position: relative;
+  font-family: "DM Sans", "Atelier Song", sans-serif;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding: 22px 32px 0;
+}
+
+.mark {
+  font-family: "Playfair Display", "Times New Roman", serif;
+  font-size: 13px;
+  letter-spacing: 0.38em;
+  text-transform: uppercase;
+  color: #f3ead7;
+}
+
+.piece {
+  margin-top: 6px;
+  font-family: "Atelier Song", "Songti SC", serif;
+  font-size: 15px;
+  letter-spacing: 0.42em;
+  color: #f3ead7;
+}
+
+.piece span {
+  margin-left: 14px;
+  letter-spacing: 0.36em;
+  color: #8d8274;
+  font-size: 13px;
+}
+
+.stage {
+  position: relative;
+  min-height: 0;
+}
+
+.stage canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
+
+.footer {
+  padding: 0 32px 26px;
+}
+
+.caption {
+  transition: opacity 0.45s ease;
+  min-height: 62px;
+}
+
+.kicker {
+  font-family: "Atelier Song", "Songti SC", serif;
+  font-size: 12px;
+  letter-spacing: 0.48em;
+  color: #c6a15a;
+  min-height: 1.2em;
+}
+
+.line {
+  margin-top: 6px;
+  font-family: "Atelier Song", "Songti SC", serif;
+  font-size: 26px;
+  letter-spacing: 0.06em;
+  color: #f3ead7;
+  min-height: 1.35em;
+}
+
+.track {
+  margin-top: 16px;
+  height: 1px;
+  background: rgba(243, 234, 215, 0.16);
+  position: relative;
+}
+
+.track > span {
+  position: absolute;
+  left: 0;
+  top: -0.5px;
+  height: 2px;
+  width: 0%;
+  background: #c6a15a;
+}
+
+.pause {
+  background: transparent;
+  color: #b7ab9c;
+  border: 1px solid rgba(243, 234, 215, 0.2);
+  border-radius: 999px;
+  padding: 7px 14px;
+  font-family: "Atelier Song", "Songti SC", serif;
+  font-size: 12px;
+  letter-spacing: 0.28em;
+  cursor: pointer;
+}
+
+.pause:hover {
+  color: #f3ead7;
+  border-color: rgba(243, 234, 215, 0.45);
+}
+
+.pause:focus-visible {
+  outline: 1px solid #c6a15a;
+  outline-offset: 3px;
+}
+
+@media (max-width: 640px) {
+  .header,
+  .footer {
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+
+  .header {
+    padding-top: 16px;
+  }
+
+  .line {
+    font-size: 20px;
+  }
+
+  .piece span {
+    margin-left: 8px;
+    letter-spacing: 0.2em;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .caption {
+    transition: none;
+  }
+}
