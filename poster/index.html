@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=1080">
+  <title>第一期招生 · AI辅助绘画艺术创作集训营</title>
+  <style>
+    @font-face {
+      font-family: "Song";
+      src: url("assets/fonts/song-700.woff2") format("woff2");
+      font-weight: 700;
+      font-style: normal;
+      font-display: block;
+    }
+    @font-face {
+      font-family: "Hei";
+      src: url("assets/fonts/hei-400.woff2") format("woff2");
+      font-weight: 400;
+      font-style: normal;
+      font-display: block;
+    }
+
+    :root {
+      --paper: #ece4d2;
+      --ink: #231c16;
+      --soft: #3f382f;
+      --mute: #5e564c;
+      --red: #9a2e2a;
+      --line: rgba(35, 28, 22, 0.2);
+      --pad: 84px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      background: var(--paper);
+      color: var(--ink);
+    }
+
+    body {
+      display: flex;
+      justify-content: center;
+    }
+
+    .poster {
+      position: relative;
+      width: 1080px;
+      background: var(--paper);
+      color: var(--ink);
+      overflow: hidden;
+      font-family: "Hei", "Noto Sans SC", sans-serif;
+      font-weight: 400;
+      line-break: strict;
+    }
+
+    .hero {
+      height: 720px;
+      background: url("assets/ink-ground.jpg") center top / 1080px 1920px no-repeat;
+      -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 64%, transparent 100%);
+      mask-image: linear-gradient(to bottom, #000 0%, #000 64%, transparent 100%);
+    }
+
+    .grain {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      opacity: 0.18;
+      mix-blend-mode: multiply;
+    }
+
+    .body {
+      position: relative;
+      padding: 0 var(--pad) 64px;
+      margin-top: -132px;
+    }
+
+    .title-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 28px;
+    }
+
+    .eyebrow {
+      font-family: "Song", "Noto Serif SC", serif;
+      font-weight: 700;
+      font-size: 22px;
+      letter-spacing: 0.48em;
+      color: var(--red);
+      margin-bottom: 18px;
+    }
+
+    h1 {
+      font-family: "Song", "Noto Serif SC", serif;
+      font-weight: 700;
+      font-size: 92px;
+      line-height: 1.06;
+      letter-spacing: 0.045em;
+      font-synthesis: none;
+    }
+
+    h1 .latin {
+      letter-spacing: 0.02em;
+      margin-right: 0.08em;
+    }
+
+    .seal {
+      flex: none;
+      width: 108px;
+      height: 108px;
+      margin-bottom: 10px;
+      background: var(--red);
+      color: #f4efe4;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      place-items: center;
+      font-family: "Song", serif;
+      font-weight: 700;
+      font-size: 30px;
+      letter-spacing: 0.06em;
+      line-height: 1;
+      transform: rotate(-8deg);
+      border: 1px solid rgba(244, 239, 228, 0.85);
+      outline: 1.5px solid rgba(244, 239, 228, 0.9);
+      outline-offset: -8px;
+    }
+
+    .stance {
+      margin-top: 42px;
+      padding-left: 20px;
+      border-left: 2px solid var(--red);
+      font-family: "Song", serif;
+      font-weight: 700;
+      font-size: 40px;
+      line-height: 1.4;
+      letter-spacing: 0.06em;
+    }
+
+    .lede {
+      margin-top: 28px;
+      max-width: 760px;
+      font-size: 28px;
+      line-height: 1.7;
+      color: var(--soft);
+    }
+
+    .faculty {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      margin-top: 52px;
+      padding-top: 28px;
+      border-top: 1px solid var(--line);
+    }
+
+    .person { padding-right: 36px; }
+
+    .person + .person {
+      border-left: 1px solid var(--line);
+      padding-left: 36px;
+      padding-right: 0;
+    }
+
+    .kicker {
+      font-family: "Song", serif;
+      font-weight: 700;
+      font-size: 20px;
+      letter-spacing: 0.42em;
+      color: var(--red);
+    }
+
+    .kicker .latin,
+    .course h3 .latin,
+    .course .who.latin {
+      letter-spacing: 0;
+    }
+
+    .genres {
+      margin-top: 18px;
+      font-size: 22px;
+      letter-spacing: 0.08em;
+      color: var(--mute);
+    }
+
+    .name {
+      margin-top: 12px;
+      font-family: "Song", serif;
+      font-weight: 700;
+      font-size: 60px;
+      letter-spacing: 0.14em;
+      line-height: 1.05;
+    }
+
+    .name.latin {
+      font-size: 46px;
+      letter-spacing: 0.01em;
+      line-height: 1.15;
+    }
+
+    .meta {
+      margin-top: 14px;
+      font-size: 24px;
+      line-height: 1.55;
+      color: var(--soft);
+    }
+
+    .courses {
+      margin-top: 48px;
+      padding-top: 28px;
+      border-top: 1px solid var(--line);
+    }
+
+    .courses .kicker { margin-bottom: 6px; }
+
+    .course {
+      display: grid;
+      grid-template-columns: 68px 1fr auto;
+      column-gap: 8px;
+      row-gap: 4px;
+      align-items: baseline;
+      padding: 18px 0 16px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .course .n {
+      font-family: "Song", serif;
+      font-weight: 700;
+      font-size: 28px;
+      color: var(--red);
+      letter-spacing: 0.04em;
+    }
+
+    .course h3 {
+      font-family: "Song", serif;
+      font-weight: 700;
+      font-size: 32px;
+      letter-spacing: 0.08em;
+    }
+
+    .course .who {
+      font-size: 22px;
+      letter-spacing: 0.14em;
+      color: var(--mute);
+    }
+
+    .course p {
+      grid-column: 2 / 3;
+      font-size: 26px;
+      line-height: 1.5;
+      color: var(--mute);
+    }
+
+    .record {
+      margin-top: 48px;
+      padding-top: 28px;
+      border-top: 1px solid var(--line);
+    }
+
+    .record h2 {
+      font-family: "Song", serif;
+      font-weight: 700;
+      font-size: 20px;
+      letter-spacing: 0.22em;
+      color: var(--red);
+      margin-top: 26px;
+    }
+
+    .record h2:first-child { margin-top: 0; }
+
+    .record ul {
+      list-style: none;
+      margin-top: 10px;
+    }
+
+    .record li {
+      font-size: 26px;
+      line-height: 1.55;
+      color: var(--soft);
+    }
+
+    .pubs {
+      margin-top: 12px;
+      max-width: 900px;
+      font-size: 26px;
+      line-height: 1.75;
+      color: var(--ink);
+    }
+
+    footer {
+      display: grid;
+      grid-template-columns: minmax(0, 640px) 1fr;
+      gap: 24px;
+      align-items: end;
+      margin-top: 48px;
+      padding-top: 26px;
+      border-top: 1px solid var(--line);
+      min-height: 168px;
+    }
+
+    .cohort {
+      font-family: "Song", serif;
+      font-weight: 700;
+      font-size: 28px;
+      letter-spacing: 0.12em;
+    }
+
+    .enroll {
+      margin-top: 8px;
+      font-size: 24px;
+      line-height: 1.55;
+      color: var(--mute);
+    }
+
+    .pigment {
+      justify-self: end;
+      width: 320px;
+      height: 240px;
+      margin: 0 -12px -28px 0;
+      background: url("assets/ink-ground.jpg") -740px -1636px / 1080px 1920px no-repeat;
+      -webkit-mask-image: radial-gradient(ellipse at 64% 62%, #000 22%, transparent 72%);
+      mask-image: radial-gradient(ellipse at 64% 62%, #000 22%, transparent 72%);
+    }
+
+    @media print {
+      html, body { background: white; }
+      body { display: block; padding: 0; }
+      .poster { width: 1080px; }
+    }
+  </style>
+</head>
+<body>
+  <article class="poster">
+    <svg class="grain" aria-hidden="true">
+      <filter id="paper">
+        <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="4" stitchTiles="stitch"/>
+      </filter>
+      <rect width="100%" height="100%" filter="url(#paper)"/>
+    </svg>
+
+    <div class="hero" aria-hidden="true"></div>
+
+    <div class="body">
+      <header class="mast">
+        <div>
+          <p class="eyebrow">第一期招生</p>
+          <div class="title-row">
+            <h1><span class="latin">AI</span>辅助绘画<br>艺术创作集训营</h1>
+            <div class="seal" aria-hidden="true"><span>为</span><span>展</span><span>而</span><span>作</span></div>
+          </div>
+          <p class="genres">插画 · 中国画 · 工笔</p>
+        </div>
+      </header>
+
+      <p class="stance">人工智能负责推演，<br>笔还在自己手上。</p>
+
+      <p class="lede">
+        面向准备参加全国美展、青年美展的美术教师。<br>
+        选题与绘画，冯东东老师讲授。<br>
+        AI 工具，Changchuan 讲授。
+      </p>
+
+      <section class="faculty" aria-label="主讲">
+        <div class="person">
+          <p class="kicker">选题与绘画</p>
+          <p class="name">冯东东</p>
+          <p class="meta">重庆大学艺术学院<br>副教授 · 硕士生导师</p>
+        </div>
+        <div class="person">
+          <p class="kicker"><span class="latin">AI</span> 工具</p>
+          <p class="name latin">Changchuan</p>
+          <p class="meta">设计师<br>图像生成 · 草图推演 · 方案比较</p>
+        </div>
+      </section>
+
+      <section class="courses" aria-label="讲授内容">
+        <p class="kicker">讲授内容</p>
+        <div class="course">
+          <span class="n">01</span>
+          <h3>选题立意</h3>
+          <span class="who">冯东东</span>
+          <p>全国美展与青年美展怎么定题，怎样写成可展出的主题。</p>
+        </div>
+        <div class="course">
+          <span class="n">02</span>
+          <h3>绘画技巧</h3>
+          <span class="who">冯东东</span>
+          <p>构图、造型、色彩，把工笔和水墨画到可以送展的完成度。</p>
+        </div>
+        <div class="course">
+          <span class="n">03</span>
+          <h3><span class="latin">AI</span> 辅助</h3>
+          <span class="who latin">Changchuan</span>
+          <p>草图推演、素材组织、方案比较。</p>
+        </div>
+        <div class="course">
+          <span class="n">04</span>
+          <h3>看稿打磨</h3>
+          <span class="who">双师</span>
+          <p>两位老师一起看稿，改到可以送展。</p>
+        </div>
+      </section>
+
+      <section class="record" aria-label="冯东东任职与参展">
+        <h2>全国</h2>
+        <ul>
+          <li>中国美术家协会会员</li>
+          <li>中国工笔画协会会员</li>
+          <li>中华儿童文化艺术促进会文化发展委员会副会长</li>
+          <li>中国热带雨林艺术研究院常务理事</li>
+        </ul>
+        <h2>重庆</h2>
+        <ul>
+          <li>重庆市中国画学会副会长</li>
+          <li>重庆市美术家协会中国画艺委会副主任</li>
+          <li>重庆市青年美术家协会副主席</li>
+          <li>重庆市工笔画学会副会长</li>
+          <li>重庆市美术家协会理事</li>
+        </ul>
+        <h2>参展与发表</h2>
+        <p class="pubs">
+          作品参加第十二届、第十三届全国美术作品展览，<br>
+          入编“新中国美术家”，并参加“新中国美术家—重庆中国画展”。<br>
+          多次在国家级与省市级展览中获奖。<br>
+          论文及作品见于《读书》《美术观察》《美术》《中国书画》《光明日报》。
+        </p>
+      </section>
+
+      <footer>
+        <div>
+          <p class="cohort">第一期</p>
+          <p class="enroll">时间、地点与报名，见主办方通知。<br>AI辅助绘画（插画）艺术创作集训营</p>
+        </div>
+        <div class="pigment" aria-hidden="true"></div>
+      </footer>
+    </div>
+  </article>
+</body>
+</html>
